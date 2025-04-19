@@ -38,6 +38,12 @@ Route::get('/pengajuan-reset-mylms/resume/{id}', [PublicResetMyLmsController::cl
 Route::get('/pengajuan-reset-igracias', [PublicResetIgraciasController::class, 'create'])->name('pengajuan-igracias.create');
 Route::post('/pengajuan-reset-igracias', [PublicResetIgraciasController::class, 'store'])->name('pengajuan-igracias.store');
 Route::get('/pengajuan-reset-igracias/resume/{id}', [PublicResetIgraciasController::class, 'resume'])->name('pengajuan-igracias.resume');
+Route::get('pengajuan-google/{id}/set-password', [PublicResetGoogleController::class, 'setPasswordForm'])->name('pengajuan-google.set-password');
+Route::post('/pengajuan-google/{id}/reset-password', [PublicResetGoogleController::class, 'updatePassword'])->name('pengajuan-google.update-password');
+
+Route::post('/pengajuan-google/request-otp', [PublicResetGoogleController::class, 'requestOtp'])->name('pengajuan-google.request-otp');
+Route::get('/pengajuan-google/verify-otp', [PublicResetGoogleController::class, 'verifyOtpForm'])->name('pengajuan-google.verify-otp-form');
+Route::post('/pengajuan-google/verify-otp', [PublicResetGoogleController::class, 'verifyOtp'])->name('pengajuan-google.verify-otp');
 
 Route::get('/ajax/siswa', function (\Illuminate\Http\Request $request) {
     $search = $request->q;
