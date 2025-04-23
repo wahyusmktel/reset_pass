@@ -2,52 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Services\Dashboard\DashboardService;
 use Illuminate\Http\Request;
-use App\Models\PengajuanResetGoogle;
-use App\Models\PengajuanResetMylms;
-use App\Models\PengajuanResetIgracias;
-use Carbon\Carbon;
-use App\Models\MasterKelas;
+use Illuminate\Support\Facades\Log;
 
 class AdminDashboardController extends Controller
 {
+    protected DashboardService $dashboardService;
+
+    public function __construct(DashboardService $dashboardService)
+    {
+        // Injeksi service dengan dependency injection
+        $this->dashboardService = $dashboardService;
+
+        // Middleware auth dan rate limit harusnya diatur di routes/middleware
+    }
+
     public function index()
     {
-        $jumlahGoogle = PengajuanResetGoogle::count();
-        $jumlahMylms = PengajuanResetMylms::count();
-        $jumlahIgracias = PengajuanResetIgracias::count();
+        try {
+            // Ambil data dari service
+            $data = $this->dashboardService->getDashboardData();
 
-        // Statistik 30 hari terakhir (pengajuan per hari)
-        $tanggal = collect(range(0, 29))->map(function ($i) {
-            return Carbon::now()->subDays($i)->format('Y-m-d');
-        })->reverse();
+            // Validasi jika data kosong akibat error
+            if (empty($data)) {
+                abort(500, 'Terjadi kesalahan saat memuat dashboard');
+            }
 
-        $dataGoogle = PengajuanResetGoogle::where('created_at', '>=', Carbon::now()->subDays(30))->get();
-        $dataMylms = PengajuanResetMylms::where('created_at', '>=', Carbon::now()->subDays(30))->get();
-        $dataIgracias = PengajuanResetIgracias::where('created_at', '>=', Carbon::now()->subDays(30))->get();
+            // Tampilkan halaman dashboard
+            return view('admin.dashboard', $data);
 
-        $grafik = $tanggal->map(function ($tgl) use ($dataGoogle, $dataMylms, $dataIgracias) {
-            return [
-                'tanggal' => $tgl,
-                'google' => $dataGoogle->whereBetween('created_at', [$tgl . ' 00:00:00', $tgl . ' 23:59:59'])->count(),
-                'mylms' => $dataMylms->whereBetween('created_at', [$tgl . ' 00:00:00', $tgl . ' 23:59:59'])->count(),
-                'igracias' => $dataIgracias->whereBetween('created_at', [$tgl . ' 00:00:00', $tgl . ' 23:59:59'])->count(),
-            ];
-        });
-
-        // Ambil data pengajuan per kelas
-        $kelasData = MasterKelas::withCount([
-            'pengajuanResetGoogle',
-            'pengajuanResetMylms',
-            'pengajuanResetIgracias',
-        ])->get();
-
-        $belumResponGoogle = \App\Models\PengajuanResetGoogle::where('status_pengajuan', true)->count();
-        $belumResponMylms = \App\Models\PengajuanResetMylms::where('status_pengajuan', true)->count();
-        $belumResponIgracias = \App\Models\PengajuanResetIgracias::where('status_pengajuan', true)->count();
-
-        $totalNotif = $belumResponGoogle + $belumResponMylms + $belumResponIgracias;
-
-        return view('admin.dashboard', compact('jumlahGoogle', 'jumlahMylms', 'jumlahIgracias', 'grafik', 'kelasData', 'belumResponGoogle', 'belumResponMylms', 'belumResponIgracias', 'totalNotif'));
+        } catch (\Throwable $th) {
+            // Log error dan redirect dengan pesan aman (tanpa bocorkan internal error ke user)
+            Log::critical('[AdminDashboard] Gagal menampilkan dashboard', ['error' => $th->getMessage()]);
+            return redirect()->back()->withErrors('Terjadi kesalahan internal saat memuat dashboard.');
+        }
     }
 }
