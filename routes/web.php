@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ResetGooglePasswordController;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\LandingPegawaiController;
+use App\Http\Controllers\PublicResetGooglePegawaiController;
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
@@ -47,6 +48,16 @@ Route::post('/pengajuan-google/{id}/reset-password', [PublicResetGoogleControlle
 Route::post('/pengajuan-google/request-otp', [PublicResetGoogleController::class, 'requestOtp'])->name('pengajuan-google.request-otp');
 Route::get('/pengajuan-google/verify-otp', [PublicResetGoogleController::class, 'verifyOtpForm'])->name('pengajuan-google.verify-otp-form');
 Route::post('/pengajuan-google/verify-otp', [PublicResetGoogleController::class, 'verifyOtp'])->name('pengajuan-google.verify-otp');
+
+Route::prefix('reset-google-pegawai')->group(function () {
+    Route::get('/', [PublicResetGooglePegawaiController::class, 'create'])->name('pegawai.create');
+    Route::post('/', [PublicResetGooglePegawaiController::class, 'store'])->name('public.pegawai.store');
+    Route::get('/verify-otp', [PublicResetGooglePegawaiController::class, 'verifyOtpForm'])->name('pegawai.verifyOtp');
+    Route::post('/verify-otp', [PublicResetGooglePegawaiController::class, 'verifyOtp'])->name('pegawai.verifyOtp.submit');
+    Route::get('/set-password', [PublicResetGooglePegawaiController::class, 'setPasswordForm'])->name('pegawai.setPassword');
+    Route::post('/set-password', [PublicResetGooglePegawaiController::class, 'setPassword'])->name('pegawai.setPassword.submit');
+    Route::get('/resume', [PublicResetGooglePegawaiController::class, 'resume'])->name('pegawai.resume');
+});
 
 Route::get('/ajax/siswa', function (\Illuminate\Http\Request $request) {
     $search = $request->q;
@@ -147,8 +158,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
     Route::post('/pegawai/store', [PegawaiController::class, 'store'])->name('pegawai.store');
     Route::get('/pegawai/{id}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
-    Route::post('/pegawai/{id}/update', [PegawaiController::class, 'update'])->name('pegawai.update');
+    Route::put('/pegawai/{id}/update', [PegawaiController::class, 'update'])->name('pegawai.update');
     Route::delete('/pegawai/{id}/delete', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
+    Route::post('/pegawai/import', [PegawaiController::class, 'import'])->name('pegawai.import');
 
     // Route::get('/test-whapify', function () {
     //     $response = Http::asForm()->post('https://whapify.id/api/send/whatsapp', [

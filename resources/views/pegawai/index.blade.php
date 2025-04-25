@@ -16,6 +16,11 @@
         <a href="{{ route('pegawai.create') }}" class="btn btn-primary">+ Tambah Pegawai</a>
     </div>
 
+    <!-- Tombol Trigger Modal -->
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#importModal">
+        Import Pegawai
+    </button>
+
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @elseif (session('error'))
@@ -64,4 +69,35 @@
     </table>
 
     {{ $pegawais->links() }}
+
+    <!-- Modal Import Pegawai -->
+    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ route('pegawai.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importModalLabel">Import Data Pegawai</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Pilih File Excel</label>
+                            <input type="file" name="file" class="form-control" accept=".xlsx, .xls, .csv" required>
+                            <small class="text-muted">Format: .xlsx, .xls, .csv</small>
+                        </div>
+                        <div>
+                            <a href="{{ asset('template/template_import_pegawai.xlsx') }}" class="btn btn-link p-0">📄
+                                Download Template Excel</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Import</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 @endsection

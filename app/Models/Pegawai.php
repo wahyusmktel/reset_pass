@@ -19,6 +19,8 @@ class Pegawai extends Model
         'nama_guru',
         'email_guru',
         'nip',
+        'jabatan',
+        'no_hp',
         'status',
     ];
 

@@ -5,7 +5,7 @@
 @section('content')
     <h1 class="mb-3">Edit Data Guru</h1>
 
-    <a href="{{ route('guru.index') }}" class="btn btn-secondary mb-3">&larr; Kembali</a>
+    <a href="{{ route('pegawai.index') }}" class="btn btn-secondary mb-3">&larr; Kembali</a>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -13,7 +13,7 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <form action="{{ route('guru.update', $guru->id) }}" method="POST">
+    <form action="{{ route('pegawai.update', $pegawai->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -21,7 +21,7 @@
             <label for="nama_guru" class="form-label">Nama Guru</label>
             <input type="text" name="nama_guru" id="nama_guru"
                 class="form-control @error('nama_guru') is-invalid @enderror"
-                value="{{ old('nama_guru', $guru->nama_guru) }}" required>
+                value="{{ old('nama_guru', $pegawai->nama_guru) }}" required>
             @error('nama_guru')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -31,7 +31,7 @@
             <label for="email_guru" class="form-label">Email Guru</label>
             <input type="email" name="email_guru" id="email_guru"
                 class="form-control @error('email_guru') is-invalid @enderror"
-                value="{{ old('email_guru', $guru->email_guru) }}" required>
+                value="{{ old('email_guru', $pegawai->email_guru) }}" required>
             @error('email_guru')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -40,7 +40,7 @@
         <div class="mb-3">
             <label for="nip" class="form-label">NIP</label>
             <input type="text" name="nip" id="nip" class="form-control @error('nip') is-invalid @enderror"
-                value="{{ old('nip', $guru->nip) }}" required>
+                value="{{ old('nip', $pegawai->nip) }}" required>
             @error('nip')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror

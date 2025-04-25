@@ -6,6 +6,10 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use App\Imports\PegawaiImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PegawaiController extends Controller
 {
@@ -110,6 +114,21 @@ class PegawaiController extends Controller
             return redirect()->route('pegawai.index')->with('success', 'Data guru berhasil dihapus.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            Excel::import(new PegawaiImport, $request->file('file'));
+            return back()->with('success', 'Import data pegawai berhasil!');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return back()->with('error', 'Import gagal. Pastikan format file sudah sesuai.');
         }
     }
 }
