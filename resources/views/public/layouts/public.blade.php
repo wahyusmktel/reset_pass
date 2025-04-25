@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .public-header {
             background: #6c63ff;
             color: #fff;
@@ -22,6 +24,7 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
+
         .public-footer {
             background: #f1f1f1;
             color: #888;
@@ -30,6 +33,7 @@
             margin-top: auto;
             font-size: 0.95rem;
         }
+
         .main-content {
             flex: 1 0 auto;
             display: flex;
@@ -38,6 +42,7 @@
             min-height: 100vh;
             padding: 0;
         }
+
         @media (max-width: 600px) {
             .main-content {
                 padding: 0 12px;
@@ -46,12 +51,15 @@
     </style>
     @stack('styles')
 </head>
+
 <body>
     <main class="main-content">
         @yield('content')
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     @stack('scripts')
 </body>
+
 </html>

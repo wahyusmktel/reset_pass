@@ -165,8 +165,8 @@
         <!-- Tambahan opsi untuk layanan pegawai -->
         <div class="mt-5 text-center">
             <h3 class="fw-bold mb-4">Layanan Pegawai</h3>
-            <a href="{{ route('landing-pegawai') }}" class="btn btn-lg btn-outline-primary">
-                <i class="fas fa-user-tie me-2"></i>Kelola Data Pegawai
+            <a href="{{ route('landing-pegawai') }}" class="btn btn-soft">
+                <i class="fas fa-user-tie me-2"></i>Reset Akun Pegawai
             </a>
         </div>
     </div>
