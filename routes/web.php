@@ -20,12 +20,15 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ImportSiswaController;
 use App\Http\Controllers\Admin\ResetGooglePasswordController;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\LandingPegawaiController;
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/landing-pegawai', [LandingPegawaiController::class, 'index'])->name('landing-pegawai');
 
 Route::get('/pengajuan-reset-google', [PublicResetGoogleController::class, 'create'])->name('pengajuan-google.create');
 Route::post('/pengajuan-reset-google', [PublicResetGoogleController::class, 'store'])->name('pengajuan-google.store');
@@ -138,6 +141,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/mapping-siswa', [MappingSiswaGoogleController::class, 'index'])->name('admin.mapping-siswa.index');
     Route::post('/mapping-siswa', [MappingSiswaGoogleController::class, 'store'])->name('admin.mapping-siswa.store');
+
+    //Pegawai
+    Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
+    Route::get('/pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
+    Route::post('/pegawai/store', [PegawaiController::class, 'store'])->name('pegawai.store');
+    Route::get('/pegawai/{id}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
+    Route::post('/pegawai/{id}/update', [PegawaiController::class, 'update'])->name('pegawai.update');
+    Route::delete('/pegawai/{id}/delete', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 
     // Route::get('/test-whapify', function () {
     //     $response = Http::asForm()->post('https://whapify.id/api/send/whatsapp', [

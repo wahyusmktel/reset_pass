@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: 
+            background:
                 linear-gradient(rgba(255, 255, 255, 0.9), rgba(250, 250, 250, 0.9)),
                 #001100;
             position: relative;
@@ -23,19 +23,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(255, 0, 0, 0.05) 0px,
-                rgba(255, 255, 255, 0.66) 1px,
-                transparent 1px,
-                transparent 3px
-            );
+            background: repeating-linear-gradient(0deg,
+                    rgba(255, 0, 0, 0.05) 0px,
+                    rgba(255, 255, 255, 0.66) 1px,
+                    transparent 1px,
+                    transparent 3px);
             pointer-events: none;
             animation: scroll 20s linear infinite;
         }
 
         @keyframes scroll {
-            100% { background-position: 0 100px; }
+            100% {
+                background-position: 0 100px;
+            }
         }
 
         .code-overlay {
@@ -49,7 +49,7 @@
         }
 
         .code-line {
-            color:rgb(51, 51, 51);
+            color: rgb(51, 51, 51);
             font-family: 'Courier New', monospace;
             font-size: 14px;
             white-space: pre;
@@ -59,9 +59,15 @@
         }
 
         @keyframes fall {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
         }
+
         .card-soft {
             border: none;
             border-radius: 20px;
@@ -113,8 +119,11 @@
             position: absolute;
             animation: fall 15s linear infinite, glow 2s ease-in-out infinite, blink 1s step-end infinite;
         }
+
         @keyframes blink {
-            50% { opacity: 0; }
+            50% {
+                opacity: 0;
+            }
         }
     </style>
 
@@ -152,8 +161,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Tambahan opsi untuk layanan pegawai -->
+        <div class="mt-5 text-center">
+            <h3 class="fw-bold mb-4">Layanan Pegawai</h3>
+            <a href="{{ route('landing-pegawai') }}" class="btn btn-lg btn-outline-primary">
+                <i class="fas fa-user-tie me-2"></i>Kelola Data Pegawai
+            </a>
+        </div>
     </div>
-    <div id="fingerprint-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000;">
+    <div id="fingerprint-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000;">
         <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
                 <circle cx="50" cy="50" r="40" stroke="white" stroke-width="3" fill="none" />
@@ -162,64 +180,65 @@
         </div>
         <script>
             const codeLines = [
-        'def hello_world():',
-        '    print("Hello, World!")',
-        'hello_world()',
-        'def add(a, b):',
-        '    return a + b',
-        'print(add(5, 3))',
-        'def subtract(a, b):',
-        '    return a - b',
-        'print(subtract(10, 4))',
-        'def multiply(a, b):',
-        '    return a * b',
-        'print(multiply(6, 7))',
-        'def divide(a, b):',
-        '    return a / b',
-        'print(divide(8, 2))',
-        'def greet(name):',
-        '    print(f"Hello, {name}!")',
-        'greet("Alice")',
-        'def square(x):',
-        '    return x * x',
-        'print(square(9))'
-    ];
+                'def hello_world():',
+                '    print("Hello, World!")',
+                'hello_world()',
+                'def add(a, b):',
+                '    return a + b',
+                'print(add(5, 3))',
+                'def subtract(a, b):',
+                '    return a - b',
+                'print(subtract(10, 4))',
+                'def multiply(a, b):',
+                '    return a * b',
+                'print(multiply(6, 7))',
+                'def divide(a, b):',
+                '    return a / b',
+                'print(divide(8, 2))',
+                'def greet(name):',
+                '    print(f"Hello, {name}!")',
+                'greet("Alice")',
+                'def square(x):',
+                '    return x * x',
+                'print(square(9))'
+            ];
 
-    function createCodeLine(line, delay) {
-        const overlay = document.querySelector('.code-overlay');
-        const codeLine = document.createElement('div');
-        codeLine.className = 'code-line';
-        codeLine.style.left = `${Math.random() * 90 + 5}%`;
-        codeLine.style.animationDelay = `-${Math.random() * 20}s`;
-        codeLine.textContent = line;
-        overlay.appendChild(codeLine);
-    
-        setTimeout(() => {
-            overlay.removeChild(codeLine);
-        }, 15000);
-    }
+            function createCodeLine(line, delay) {
+                const overlay = document.querySelector('.code-overlay');
+                const codeLine = document.createElement('div');
+                codeLine.className = 'code-line';
+                codeLine.style.left = `${Math.random() * 90 + 5}%`;
+                codeLine.style.animationDelay = `-${Math.random() * 20}s`;
+                codeLine.textContent = line;
+                overlay.appendChild(codeLine);
 
-    let delay = 0;
-    codeLines.forEach(line => {
-        setTimeout(() => createCodeLine(line, delay), delay * 1000);
-        delay += 1;
-    });
+                setTimeout(() => {
+                    overlay.removeChild(codeLine);
+                }, 15000);
+            }
 
-    setInterval(() => {
-        delay = 0;
-        codeLines.forEach(line => {
-            setTimeout(() => createCodeLine(line, delay), delay * 1000);
-            delay += 1;
-        });
-    }, 5000);
-    document.querySelectorAll('.btn-soft').forEach(button => {
-        button.addEventListener('click', function() {
-            const overlay = document.getElementById('fingerprint-overlay');
-            overlay.innerHTML = '<div style="color: lime; font-family: monospace; text-align: center; margin-top: 20%;">Access Granted<br>System Breached</div>';
-            overlay.style.display = 'block';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 3000);
-        });
-    });
-</script>
+            let delay = 0;
+            codeLines.forEach(line => {
+                setTimeout(() => createCodeLine(line, delay), delay * 1000);
+                delay += 1;
+            });
+
+            setInterval(() => {
+                delay = 0;
+                codeLines.forEach(line => {
+                    setTimeout(() => createCodeLine(line, delay), delay * 1000);
+                    delay += 1;
+                });
+            }, 5000);
+            document.querySelectorAll('.btn-soft').forEach(button => {
+                button.addEventListener('click', function() {
+                    const overlay = document.getElementById('fingerprint-overlay');
+                    overlay.innerHTML =
+                        '<div style="color: lime; font-family: monospace; text-align: center; margin-top: 20%;">Access Granted<br>System Breached</div>';
+                    overlay.style.display = 'block';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 3000);
+                });
+            });
+        </script>
