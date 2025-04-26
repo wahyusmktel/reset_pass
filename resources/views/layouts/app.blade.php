@@ -299,6 +299,10 @@
                     class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('admin.pengajuan-google.*') ? 'active' : '' }}">
                     <i class="fab fa-google me-2"></i> Google
                 </a>
+                <a href="{{ route('admin.google.users') }}"
+                    class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('admin.google.users') ? 'active' : '' }}">
+                    <i class="fas fa-users-cog me-2"></i> Google Users
+                </a>
                 <a href="{{ route('pengajuan-mylms.index') }}"
                     class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('pengajuan-mylms.*') ? 'active' : '' }}">
                     <i class="fas fa-graduation-cap me-2"></i> MyLMS
@@ -306,6 +310,14 @@
                 <a href="{{ route('pengajuan-igracias.index') }}"
                     class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('pengajuan-igracias.*') ? 'active' : '' }}">
                     <i class="fas fa-user-graduate me-2"></i> iGracias
+                </a>
+                <a href="{{ route('pegawai.index') }}"
+                    class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('pegawai.*') ? 'active' : '' }}">
+                    <i class="fas fa-user-tie me-2"></i> Pegawai
+                </a>
+                <a href="{{ route('log-reset-google.index') }}"
+                    class="nav-link d-flex align-items-center py-2 px-3 {{ request()->routeIs('log-reset-google.*') ? 'active' : '' }}">
+                    <i class="fas fa-history me-2"></i> Log Reset Google
                 </a>
             </div>
         </div>
