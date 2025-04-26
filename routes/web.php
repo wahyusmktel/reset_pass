@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\LandingPegawaiController;
 use App\Http\Controllers\PublicResetGooglePegawaiController;
+use App\Http\Controllers\LogResetGoogleController;
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
@@ -161,6 +162,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/pegawai/{id}/update', [PegawaiController::class, 'update'])->name('pegawai.update');
     Route::delete('/pegawai/{id}/delete', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
     Route::post('/pegawai/import', [PegawaiController::class, 'import'])->name('pegawai.import');
+
+    Route::get('/log-reset-google', [LogResetGoogleController::class, 'index'])->name('log-reset-google.index');
 
     // Route::get('/test-whapify', function () {
     //     $response = Http::asForm()->post('https://whapify.id/api/send/whatsapp', [

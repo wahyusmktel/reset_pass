@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class LogResetGoogle extends Model
 {
     use HasFactory;
-
+    protected $table = 'log_reset_googles';
     public $incrementing = false;
     protected $keyType = 'string';
 
